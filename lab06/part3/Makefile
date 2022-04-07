@@ -5,18 +5,18 @@ CC=gcc
 # The variable CFLAGS specifies compiler options
 #   -c :    Only compile (don't link)
 #   -Wall:  Enable all warnings about lazy / dangerous C programming 
-#  You can add additional options on this same line..
-#  WARNING: NEVER REMOVE THE -c FLAG, it is essential to proper operation
-CFLAGS=-c -Wall -Wextra -std=c99
+#   -std=gnu99: Using newer C99 version of C programming language
+#               + GNU extensions (for random / srandom()
+CFLAGS=-c -Wall -std=gnu99 -O2
 
 # All of the .h header files to use as dependencies
-HEADERS=ship.h board.h
+HEADERS=matrix_math.h
 
 # All of the object files to produce as intermediary work
-OBJECTS=main.o ship.o board.o
+OBJECTS=matrix_math.o
 
 # The final program to build
-EXECUTABLE=frigate
+EXECUTABLE=matrix_math
 
 # --------------------------------------------
 

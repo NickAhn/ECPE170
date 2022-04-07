@@ -1,0 +1,81 @@
+Configuration: Algorithm 1, array size 256
+Total size of all 3 arrays: 1.5 MB
+Result for sanity checking: c[255][255]=62.498
+Floating-point ops/sec: 8.19E+08
+\n
+Configuration: Algorithm 1, array size 512
+Total size of all 3 arrays: 6 MB
+Result for sanity checking: c[511][511]=133.201
+Floating-point ops/sec: 5.99E+08
+\n
+Configuration: Algorithm 1, array size 768
+Total size of all 3 arrays: 14 MB
+Result for sanity checking: c[767][767]=195.151
+Floating-point ops/sec: 6.95E+08
+\n
+Configuration: Algorithm 1, array size 1024
+Total size of all 3 arrays: 24 MB
+Result for sanity checking: c[1023][1023]=259.366
+Floating-point ops/sec: 4.08E+08
+\n
+Configuration: Algorithm 1, array size 1280
+Total size of all 3 arrays: 38 MB
+Result for sanity checking: c[1279][1279]=324.184
+Floating-point ops/sec: 5.44E+08
+\n
+Configuration: Algorithm 1, array size 1536
+Total size of all 3 arrays: 54 MB
+Result for sanity checking: c[1535][1535]=388.654
+Floating-point ops/sec: 3.45E+08
+\n
+Configuration: Algorithm 1, array size 1792
+Total size of all 3 arrays: 74 MB
+Result for sanity checking: c[1791][1791]=440.186
+Floating-point ops/sec: 5.31E+08
+\n
+Configuration: Algorithm 1, array size 2048
+Total size of all 3 arrays: 96 MB
+Result for sanity checking: c[2047][2047]=516.606
+Floating-point ops/sec: 3.11E+08
+\n
+\n\n\n
+Configuration: Algorithm 2, array size 256
+Total size of all 3 arrays: 1.5 MB
+Result for sanity checking: c[255][255]=62.498
+Floating-point ops/sec: 3.47E+09
+\n
+Configuration: Algorithm 2, array size 512
+Total size of all 3 arrays: 6 MB
+Result for sanity checking: c[511][511]=133.201
+Floating-point ops/sec: 2.61E+09
+\n
+Configuration: Algorithm 2, array size 768
+Total size of all 3 arrays: 14 MB
+Result for sanity checking: c[767][767]=195.151
+Floating-point ops/sec: 2.66E+09
+\n
+Configuration: Algorithm 2, array size 1024
+Total size of all 3 arrays: 24 MB
+Result for sanity checking: c[1023][1023]=259.366
+Floating-point ops/sec: 3.16E+09
+\n
+Configuration: Algorithm 2, array size 1280
+Total size of all 3 arrays: 38 MB
+Result for sanity checking: c[1279][1279]=324.184
+Floating-point ops/sec: 3.03E+09
+\n
+Configuration: Algorithm 2, array size 1536
+Total size of all 3 arrays: 54 MB
+Result for sanity checking: c[1535][1535]=388.654
+Floating-point ops/sec: 2.92E+09
+\n
+Configuration: Algorithm 2, array size 1792
+Total size of all 3 arrays: 74 MB
+Result for sanity checking: c[1791][1791]=440.186
+Floating-point ops/sec: 2.99E+09
+\n
+Configuration: Algorithm 2, array size 2048
+Total size of all 3 arrays: 96 MB
+Result for sanity checking: c[2047][2047]=516.606
+Floating-point ops/sec: 2.88E+09
+\n

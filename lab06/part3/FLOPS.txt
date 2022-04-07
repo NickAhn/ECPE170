@@ -1,0 +1,16 @@
+Floating-point ops/sec: 8.19E+08
+Floating-point ops/sec: 5.99E+08
+Floating-point ops/sec: 6.95E+08
+Floating-point ops/sec: 4.08E+08
+Floating-point ops/sec: 5.44E+08
+Floating-point ops/sec: 3.45E+08
+Floating-point ops/sec: 5.31E+08
+Floating-point ops/sec: 3.11E+08
+Floating-point ops/sec: 3.47E+09
+Floating-point ops/sec: 2.61E+09
+Floating-point ops/sec: 2.66E+09
+Floating-point ops/sec: 3.16E+09
+Floating-point ops/sec: 3.03E+09
+Floating-point ops/sec: 2.92E+09
+Floating-point ops/sec: 2.99E+09
+Floating-point ops/sec: 2.88E+09

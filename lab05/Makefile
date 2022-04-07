@@ -5,18 +5,17 @@ CC=gcc
 # The variable CFLAGS specifies compiler options
 #   -c :    Only compile (don't link)
 #   -Wall:  Enable all warnings about lazy / dangerous C programming 
-#  You can add additional options on this same line..
-#  WARNING: NEVER REMOVE THE -c FLAG, it is essential to proper operation
-CFLAGS=-c -Wall -Wextra -std=c99
+#   -std=c99: Using newer C99 version of C programming language
+CFLAGS=-c -Wall -std=c99 
 
 # All of the .h header files to use as dependencies
-HEADERS=ship.h board.h
+HEADERS=config.h combine.h vec.h
 
 # All of the object files to produce as intermediary work
-OBJECTS=main.o ship.o board.o
+OBJECTS=combine.o main.o vec.o
 
 # The final program to build
-EXECUTABLE=frigate
+EXECUTABLE=combine_program
 
 # --------------------------------------------
 
