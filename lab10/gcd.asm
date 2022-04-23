@@ -11,9 +11,14 @@
 main:
 
 
+#n1 = $s0
 #call function
 #add arguments low and high to registers $a0 $a1
-jal randominrange
+	li a0, 1 # load low to a0
+	li a1, 10000 # load high to high
+	jal randominrange
+	move 
+
 
 	# Exit the program by means of a syscall.
 	# There are many syscalls - pick the desired one
@@ -25,8 +30,36 @@ jal randominrange
 	#funcitons here
 
 randominrange:
+	#a0 = low
+	#a1 = high
+	#t0 = range
+	#t1 = rand_num
+	#t2 = return value
 
-	jal $ra
+	# PUSH $ra to stack
+	addi $sp, $sp, -4 #adjust stack pointer
+	sw $ra, 0($sp) # Save $ra
+
+	# range = high - low + 1
+	sub $t0, $a1, $a0 #high - low
+	addi $t0, $t0, 1 #adding 1 to range
+
+	# rand_num = get_random()
+	jal get_random	# calling get_random()
+	move $t1, $v0 # save return value of get_random in $t1
+
+	# get_random() = (rand_num % range) + low
+	divu $t1, $t0 # rand_num % range
+	mfhi $t2 # move remainder of mod in t3
+	add $t2, $t2, $a0 # add low to return value
+	move $v0, $t2 # move return value to v0
+
+	# POP from stack
+	lw $ra, 0($sp) # Restore $ra
+	addi $sp, $sp, 4 # Adjust stack pointer
+
+	# Return
+	jr $ra 
 
 
 # Generate random number
