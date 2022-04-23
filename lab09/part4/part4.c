@@ -17,7 +17,6 @@ int main()
    while(i >= 0)
    {
       A[i]=A[i]*2;
-      printf("%d\n", A[i]);
       i--;
    } 
 }
