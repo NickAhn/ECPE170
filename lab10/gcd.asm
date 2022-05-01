@@ -9,21 +9,73 @@
 
 # The label 'main' represents the starting point
 main:
+	# $s0 = i
+	# $s1 = n1
+	# $s2 = n2
+	li $s0, 0 # int i = 0
 
+	loop:
+		bge $s0, 10, endloop
+		#n1 = $s1
+		#n2 = $s2
+		
+		# n1 = random_in_range(1,10000);
+		li $a0, 1 # load low to a0
+		li $a1, 10000 # load high to high
+		jal randominrange
+		move $s1, $v0 # move return value of randominrange to t1
 
-#n1 = $s0
-#call function
-#add arguments low and high to registers $a0 $a1
-	li a0, 1 # load low to a0
-	li a1, 10000 # load high to high
-	jal randominrange
-	move 
+		# n2 = random_in_range(1,10000)
+		li $a0, 1 # load low to a0
+		li $a1, 10000 # load high to high
+		jal randominrange
+		move $s2, $v0 # move return value of randominrange to t1
 
+		# print " G.C.D of "
+		li $v0, 4 # set v0 to 4 to print_string
+		la $a0, msg1
+		syscall 
+
+		# print n1
+		li $v0, 1 # set v0 to 1 to print_int
+		move $a0, $s1 #load n1 to a0
+		syscall
+
+		# print " and "
+		li $v0, 4 # set v0 to 4 to print_string
+		la $a0, msg2
+		syscall 
+
+		# print n2
+		li $v0, 1 #set v0 to 1 to print_int
+		move $a0, $s2 # load n2 to a0
+		syscall
+
+		# print "is"
+		li $v0, 4 # set v0 to 4 to print_string
+		la $a0, msg3
+		syscall
+
+		# print gcd(n1,n2)
+		move $a0, $s1 # load n1 to a0
+		move $a1, $s2 # load n2 to a1
+		jal gcd
+		move $a0, $v0 # moving return value of gcd to a0
+		li $v0, 1
+		syscall
+
+		# print period
+		li $v0, 4 # set v0 to 4 to print_string
+		la $a0, period
+
+		addi $s0, 1 # i++
+		j loop # jump back to loop
+
+	endloop:
 
 	# Exit the program by means of a syscall.
 	# There are many syscalls - pick the desired one
 	# by placing its code in $v0. The code for exit is "10"
-
 	li $v0, 10 # Sets $v0 to "10" to select exit syscall
 	syscall # Exit
 
@@ -32,24 +84,30 @@ main:
 randominrange:
 	#a0 = low
 	#a1 = high
-	#t0 = range
+	#t7 = range
 	#t1 = rand_num
 	#t2 = return value
 
 	# PUSH $ra to stack
 	addi $sp, $sp, -4 #adjust stack pointer
 	sw $ra, 0($sp) # Save $ra
+	addi $sp, $sp, -4 # Adjust Stack Pointer
+	sw $a0, 0($sp) # save a0
 
 	# range = high - low + 1
-	sub $t0, $a1, $a0 #high - low
-	addi $t0, $t0, 1 #adding 1 to range
+	sub $t7, $a1, $a0 #high - low
+	addi $t7, $t7, 1 #adding 1 to range
 
 	# rand_num = get_random()
 	jal get_random	# calling get_random()
 	move $t1, $v0 # save return value of get_random in $t1
 
+	# POP a0
+	lw $a0, 0($sp) # restore a0
+	addi $sp, $sp, 4 # adjust stack pointer
+
 	# get_random() = (rand_num % range) + low
-	divu $t1, $t0 # rand_num % range
+	divu $t1, $t7 # rand_num % range
 	mfhi $t2 # move remainder of mod in t3
 	add $t2, $t2, $a0 # add low to return value
 	move $v0, $t2 # move return value to v0
@@ -127,6 +185,32 @@ get_random:
 	jr $ra
 
 
+gcd:
+	# n1 = a0
+	# n2 = a1
+	# PUSH from stack
+	addi $sp, $sp, -4 # Adjust Stack Pointer
+	sw $ra, 0($sp) # Save $ra
+
+	beq $a1, 0, else 
+		divu $a0, $a1 # n1 % n2
+		mfhi $a0 # move remainder of mod to a1
+		move $t0, $a0 
+		move $a0, $a1 # making first argument = n2
+		move $a1, $t0 # move t0 to a1
+		jal gcd # gcd(n2, n1%n2)
+		j endif
+
+	else:
+		move $v0, $a0 # move value of a0 to v0	
+	endif:
+		# POP from stack
+		lw $ra, 0($sp) # Restore $ra
+		addi $sp, $sp, 4 # Adjust Stack Pointer
+
+		jr $ra
+
+
 
 
 	# All memory structures are placed after the
@@ -139,5 +223,9 @@ get_random:
 	# (or a comma separated list of initial values)
 	#For example:
 	#value:	.word 12
-W:	.word 123
-Z:	.word 456
+W:	.word 50000
+Z:	.word 60000
+msg1: .asciiz "\n G.C.D of "
+msg2: .asciiz " and "
+msg3: .asciiz " is "
+period: .asciiz "."
