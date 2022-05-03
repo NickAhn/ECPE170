@@ -44,20 +44,55 @@ Function to drop 'token' in board at position 'pos'
 If column is not full, drop token in the next available space and return 1.
 Otherwise, return 0.
 */
-int drop_token(char* board, char token, int pos){
+int* drop_token(char* board, char token, int pos){
     int i = pos+45;
+    int* location = calloc(2, sizeof(int));
+
     if(board[pos] == '.'){
         while(i >= pos){
             if(board[i] == '.'){
                 board[i] = token;
-                return 1;
+                location[0] = 1;
+                location[1] = i;
+                return location;
             }
 
             i-=9;
        }
-   }
+    }
 
-   return 0;
+    location[0] = 0;
+    location[1] = 0;
+    return location;
+}
+
+int check_direction(char* board, char player, int pos, int offset){
+    int count = 1;
+    
+    int i; // index of position in board
+    for(int j = 0; j<2; j++){
+        i = pos+offset;
+        while(i < board_size && i > 0){
+            if(board[i] == player){
+                count++;
+            } else {
+                break;
+            }
+            i += offset;
+        }
+        offset *= -1; // change direction of checking
+    }
+
+    return count >= 5;
+}
+
+int check_win(char* board, char player, int pos){
+    return check_direction(board, player, pos, 9) // check vertically 
+        || check_direction(board, player, pos, 10) // check up-left/down-right
+        || check_direction(board, player, pos, 8) // check down-left/up-right
+        || check_direction(board, player, pos, 1) //horizontal check
+        ;
+
 }
 
 int main(){
@@ -87,21 +122,31 @@ int main(){
     while(isOver == 0){
         int isValidMove = 0;
         while(isValidMove == 0){
-            if(coin_flip == 0){ // HUMAN's turn
+            if(coin_flip == 0 || coin_flip == 1){ // HUMAN's turn
                 printf("What column would you like to drop token into? Enter 1-7: ");
                 scanf("%d", &pos);
-                isValidMove = drop_token(board, 'H', pos);
-                if(!isValidMove)
-                    printf("Column is full.\n\n");
 
-            }else{ // COMPUTER's turn
-                pos = random_in_range(1,7);
-                isValidMove = drop_token(board, 'C', pos);
-                if(isValidMove){
-                    printf("COMPUTER player selected column %d\n\n", pos);
-                    print_board(board);
+                int* location = drop_token(board, 'H', pos);
+                isValidMove = location[0]; //0 or 1 
+                printf("location[0] = %d, locaiton[1] = %d\n", location[0], location[1]); //TODO: delete
+                if(!isValidMove){
+                    printf("Column is full.\n\n");
+                    continue;
                 }
-            }
+                isOver = check_win(board, 'H', location[1]); // check
+
+            }//else{ // COMPUTER's turn
+            //     pos = random_in_range(1,7);
+
+            //     int* location = drop_token(board, 'C', pos); //TODO: refactor
+            //     isValidMove = location[0];
+            //     if(isValidMove){
+            //         printf("COMPUTER player selected column %d\n\n", pos);
+            //         print_board(board);
+
+            //     }
+            // }
+            print_board(board);
 
         }
         coin_flip = (coin_flip + 1) % 2; //update coin to pass turn to other player
