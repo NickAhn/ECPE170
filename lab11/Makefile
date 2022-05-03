@@ -9,13 +9,13 @@ CC=gcc
 CFLAGS=-c -Wall -std=c99 
 
 # All of the .h header files to use as dependencies
-HEADERS=config.h combine.h vec.h
+HEADERS=
 
 # All of the object files to produce as intermediary work
-OBJECTS=combine.o main.o vec.o
+OBJECTS=game.o
 
 # The final program to build
-EXECUTABLE=combine_program
+EXECUTABLE=connect4
 
 # --------------------------------------------
 
