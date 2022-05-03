@@ -104,8 +104,23 @@ int check_win(char* board, char player, int pos){
 }
 
 int main(){
-    // int rows = 6;
-    // int cols = 9;
+    printf("Welcome to Connect Four, Five-in-a-Row variant!\n");
+    printf("Version 1.0\nImplemented by Nicolas Ahn\n\n");
+
+    printf("Enter two positive numbers to initialize the random number generator.\n");
+    printf("Number 1: ");
+    scanf("%d", &m_w);
+    printf("Number 2: ");
+    scanf("%d", &m_z);
+
+    printf("HUMAN player (H)\nCOMPUTER player (C)");
+
+    //choose which player goes first
+    int coin_flip = get_random() % 2; //if 1, HUMAN goes first. If 0, COMPUTER goes first.
+    printf("Coin toss... ");
+    if(coin_flip == 0) printf("HUMAN goes first.\n\n");
+    else printf("COMPUTER goes first.\n\n");
+
     char* board = (char*)calloc(board_size, sizeof(char));
 
     // Set up board
@@ -120,9 +135,6 @@ int main(){
     }
 
     print_board(board);
-
-    //choose which player goes first
-    int coin_flip = get_random() % 2; //if 1, HUMAN goes first. If 0, COMPUTER goes first.
 
     /* Start Game */
     int isOver = 0; //flag: 0 = game not over; 1 = game over;
