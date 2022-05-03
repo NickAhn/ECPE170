@@ -70,18 +70,28 @@ int check_direction(char* board, char player, int pos, int offset){
     int count = 1;
     
     int i; // index of position in board
+    int startCol = (pos%9)+1; // counter to make sure it doesn't wrap around
+    int colCounter = 1;
     for(int j = 0; j<2; j++){
-        i = pos+offset;
-        while(i < board_size && i > 0){
+        i = pos;
+        while(i < board_size && i > 0 ){
+            i +=  offset;
+            if(startCol < 0 || startCol > 8) break;
+
             if(board[i] == player){
                 count++;
             } else {
                 break;
             }
-            i += offset;
+            if(offset != 9)
+                startCol += colCounter;
         }
         offset *= -1; // change direction of checking
+        colCounter *= -1;
+        startCol = (pos%9)+colCounter;
     }
+    if(count >= 5)
+        printf("%d\n", count);
 
     return count >= 5;
 }
@@ -89,7 +99,7 @@ int check_direction(char* board, char player, int pos, int offset){
 int check_win(char* board, char player, int pos){
     return check_direction(board, player, pos, 9) // check vertically 
         || check_direction(board, player, pos, 10) // check up-left/down-right
-        || check_direction(board, player, pos, 8) // check down-left/up-right
+        || check_direction(board, player, pos, -8) // check down-left/up-right
         || check_direction(board, player, pos, 1) //horizontal check
         ;
 
@@ -119,38 +129,45 @@ int main(){
     /* Start Game */
     int isOver = 0; //flag: 0 = game not over; 1 = game over;
     int pos; // Position to drop token
+    int* location;
     while(isOver == 0){
         int isValidMove = 0;
         while(isValidMove == 0){
-            if(coin_flip == 0 || coin_flip == 1){ // HUMAN's turn
+            if(coin_flip >= 0){ // HUMAN's turn
                 printf("What column would you like to drop token into? Enter 1-7: ");
                 scanf("%d", &pos);
 
-                int* location = drop_token(board, 'H', pos);
+                location = drop_token(board, 'H', pos);
                 isValidMove = location[0]; //0 or 1 
-                printf("location[0] = %d, locaiton[1] = %d\n", location[0], location[1]); //TODO: delete
                 if(!isValidMove){
                     printf("Column is full.\n\n");
                     continue;
                 }
+                print_board(board); // TODO: delete
                 isOver = check_win(board, 'H', location[1]); // check
 
-            }//else{ // COMPUTER's turn
-            //     pos = random_in_range(1,7);
+            }else{ // COMPUTER's turn
+                pos = random_in_range(1,7);
 
-            //     int* location = drop_token(board, 'C', pos); //TODO: refactor
-            //     isValidMove = location[0];
-            //     if(isValidMove){
-            //         printf("COMPUTER player selected column %d\n\n", pos);
-            //         print_board(board);
-
-            //     }
-            // }
-            print_board(board);
+                location = drop_token(board, 'C', pos);
+                isValidMove = location[0];
+                if(isValidMove){
+                    printf("COMPUTER player selected column %d\n\n", pos);
+                    print_board(board);
+                    isOver = check_win(board, 'C', location[1]);
+                }
+            }
 
         }
         coin_flip = (coin_flip + 1) % 2; //update coin to pass turn to other player
     }
+
+    print_board(board);
+    printf("win location: board[%d]", location[1]);
+    if(board[location[1]] == 'H')
+        printf("Congratulations, Human Wins!\n");
+    else
+        printf("Congratulations, Computer Wins!\n");
 
 }
 
